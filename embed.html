@@ -20,10 +20,9 @@
 <body>
   <div id="learning-object-container"></div>
   
-  <!-- Load vanilla JS wrapper and modular content plugins -->
+  <!-- Load vanilla JS wrapper -->
   <script src="./wrapper.js"></script>
-  <script type="module" src="./contentPlugins.js"></script>
-  
+
   <script type="module">
     import { contentPlugins } from './contentPlugins.js';
 
@@ -185,13 +184,13 @@
         
         // Load content using appropriate plugin
         try {
-          const handler = contentPlugins[contentConfig.type] || contentPlugins.iframe;
+          const handler = await contentPlugins.getPlugin(contentConfig.type);
           console.log('🚀 Using handler for type:', contentConfig.type);
-          
+
           if (!handler) {
             throw new Error(`No handler found for content type: ${contentConfig.type}`);
           }
-          
+
           await handler(wrapperInstance, contentConfig);
           console.log('✅ Content loaded successfully');
           
