@@ -65,8 +65,8 @@ export const superSplatPlugin = {
       }
       console.log('Using local file URL:', finalSrc);
     }
-    // Use the public SuperSplat viewer with our file URL
-    const url = new URL('https://superspl.at/viewer/');
+    // Use locally hosted SuperSplat viewer with our file URL
+    const url = new URL('supersplat-viewer/index.html', window.location.href);
     url.searchParams.append('content', finalSrc);
     
     if (settings) url.searchParams.append('settings', settings);

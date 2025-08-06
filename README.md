@@ -30,6 +30,7 @@ A universal wrapper for embedding different types of learning content with suppo
 - `assets/transcripts/` — Sample transcript files
 - `assets/captions/` — Sample caption files (WebVTT)
 - `index.html` — Complete test suite and documentation
+- `supersplat-viewer/` — Local copy of PlayCanvas SuperSplat viewer (MIT)
 
 ---
 
