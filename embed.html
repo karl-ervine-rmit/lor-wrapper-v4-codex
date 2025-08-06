@@ -13,9 +13,6 @@
   <link rel="dns-prefetch" href="https://youtube.com">
   <link rel="dns-prefetch" href="https://vimeo.com">
   
-  <!-- Preload Plyr CSS for video content -->
-  <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"></noscript>
 </head>
 <body>
   <div id="learning-object-container"></div>
@@ -66,26 +63,6 @@
         console.log('🎉 Wrapper ready!');
         
         const { wrapper: wrapperInstance, config: wrapperConfig } = event.detail;
-        
-        // Performance optimization: preload resources based on content type
-        const contentType = config.type;
-        if (contentType === 'video' || contentType === 'auto') {
-          // Preload Plyr JavaScript for video content
-          const script = document.createElement('link');
-          script.rel = 'preload';
-          script.href = 'https://cdn.plyr.io/3.7.8/plyr.polyfilled.js';
-          script.as = 'script';
-          document.head.appendChild(script);
-        }
-        
-        if (contentType === 'model' || contentType === 'auto') {
-          // Preload model-viewer for 3D content
-          const script = document.createElement('link');
-          script.rel = 'preload';
-          script.href = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js';
-          script.as = 'script';
-          document.head.appendChild(script);
-        }
         
         // Parse captions from URL parameters
         const captions = [];

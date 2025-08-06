@@ -7,5 +7,9 @@
     "start": "python3 -m http.server 8000"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@google/model-viewer": "^4.1.0",
+    "plyr": "^3.7.8"
+  }
 }
