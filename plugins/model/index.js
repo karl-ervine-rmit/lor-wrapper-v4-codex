@@ -1,6 +1,3 @@
-import '@google/model-viewer';
-import './style.css';
-
 /**
  * 3D Model Content Plugin
  * Enhanced model-viewer integration with controls and AR support
@@ -17,6 +14,11 @@ export const modelPlugin = {
    * @param {string} [config.alt] - Alt text for accessibility
    */
   async load(wrapper, { src, iosSrc, title = '', alt = '3D model' }) {
+    await Promise.all([
+      import('@google/model-viewer'),
+      import('./style.css')
+    ]);
+
     console.log('🚀 Loading 3D model:', src);
     const container = wrapper.getContentContainer();
     

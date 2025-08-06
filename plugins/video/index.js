@@ -1,6 +1,3 @@
-import Plyr from 'plyr';
-import './plyr.css';
-
 /**
  * Video Content Plugin
  * Handles video content with Plyr player integration
@@ -17,6 +14,11 @@ export const videoPlugin = {
    * @param {string} [config.poster] - Optional poster image URL for HTML5 videos
    */
   async load(wrapper, { src, title = '', captions = [], poster = '' }) {
+    const [{ default: Plyr }] = await Promise.all([
+      import('plyr'),
+      import('./plyr.css')
+    ]);
+
     console.log('🎬 Loading video:', src);
     console.log('🎬 Video config received:', { src, title, captions, poster });
     
