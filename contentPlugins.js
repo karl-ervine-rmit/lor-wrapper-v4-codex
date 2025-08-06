@@ -3,36 +3,37 @@
  * Each plugin is now in a separate file for better maintainability
  */
 
-import { videoPlugin } from './plugins/videoPlugin.js';
-import { modelPlugin } from './plugins/modelPlugin.js';
-import { iframePlugin } from './plugins/iframePlugin.js';
-import { h5pPlugin } from './plugins/h5pPlugin.js';
-
 export const contentPlugins = {
   /**
-   * Video content handler
+   * Dynamically load a content plugin based on type
+   * @param {string} type - Content type identifier
+   * @returns {Promise<Function>} Plugin load function
    */
-  video: videoPlugin.load,
-
-  /**
-   * 3D model content handler  
-   */
-  model: modelPlugin.load,
-
-  /**
-   * PDF content handler (uses iframe plugin)
-   */
-  pdf: iframePlugin.load,
-
-  /**
-   * H5P content handler (dedicated plugin with official resizer)
-   */
-  h5p: h5pPlugin.load,
-
-  /**
-   * Generic iframe content handler
-   */
-  iframe: iframePlugin.load,
+  async getPlugin(type) {
+    switch (type) {
+      case 'video': {
+        const { videoPlugin } = await import('./plugins/videoPlugin.js');
+        return videoPlugin.load;
+      }
+      case 'model': {
+        const { modelPlugin } = await import('./plugins/modelPlugin.js');
+        return modelPlugin.load;
+      }
+      case 'pdf': {
+        const { iframePlugin } = await import('./plugins/iframePlugin.js');
+        return iframePlugin.load;
+      }
+      case 'h5p': {
+        const { h5pPlugin } = await import('./plugins/h5pPlugin.js');
+        return h5pPlugin.load;
+      }
+      case 'iframe':
+      default: {
+        const { iframePlugin } = await import('./plugins/iframePlugin.js');
+        return iframePlugin.load;
+      }
+    }
+  },
 
   /**
    * Auto-detect content type based on URL or extension
