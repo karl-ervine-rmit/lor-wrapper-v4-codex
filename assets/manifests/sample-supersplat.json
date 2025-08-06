@@ -1,0 +1,12 @@
+{
+  "id": "sample-supersplat",
+  "type": "supersplat",
+  "title": "SuperSplat Demo",
+  "src": "https://superspl.at/examples/spot.ply",
+  "attribution": {
+    "title": {
+      "text": "SuperSplat Viewer",
+      "url": "https://superspl.at/"
+    }
+  }
+}

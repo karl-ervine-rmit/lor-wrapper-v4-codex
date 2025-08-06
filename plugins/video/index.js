@@ -14,10 +14,33 @@ export const videoPlugin = {
    * @param {string} [config.poster] - Optional poster image URL for HTML5 videos
    */
   async load(wrapper, { src, title = '', captions = [], poster = '' }) {
-    const [{ default: Plyr }] = await Promise.all([
-      import('plyr'),
-      import('./plyr.css')
-    ]);
+    const loadStylesheet = (href) =>
+      new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = () => resolve();
+        link.onerror = reject;
+        document.head.appendChild(link);
+      });
+
+    let PlyrModule;
+    try {
+      PlyrModule = await import('plyr');
+    } catch (e) {
+      PlyrModule = await import(
+        'https://cdn.jsdelivr.net/npm/plyr@3.7.8/+esm'
+      );
+    }
+    const Plyr = PlyrModule.default || window.Plyr;
+
+    try {
+      await loadStylesheet(new URL('./plyr.css', import.meta.url).href);
+    } catch {
+      await loadStylesheet(
+        'https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css'
+      );
+    }
 
     console.log('🎬 Loading video:', src);
     console.log('🎬 Video config received:', { src, title, captions, poster });
