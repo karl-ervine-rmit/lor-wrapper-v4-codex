@@ -1,6 +1,8 @@
+import logger from './utils/logger.js';
+
 /**
  * Learning Object Wrapper - Vanilla JavaScript Version
- * 
+ *
  * Universal wrapper for embedding different types of learning content
  * Supports: video, 3D models, PDFs, H5P, websites, auto-detection
  * Features: theming, iframe resize, transcript support, analytics ready
@@ -39,29 +41,29 @@ class LearningObjectWrapper {
    */
   async initialize() {
     try {
-      console.log('🚀 Initializing wrapper...');
+      logger.debug('🚀 Initializing wrapper...');
       
       // Create basic structure (this now includes theme detection)
       this.createWrapperStructure();
-      console.log('✅ DOM structure created');
+      logger.debug('✅ DOM structure created');
       
       // Set up theme change listeners (after DOM is created)
       this.setupThemeListener();
-      console.log('✅ Theme listeners set up');
+      logger.debug('✅ Theme listeners set up');
       
       // Initialize resize handling
       this.initializeResize();
-      console.log('✅ Resize handling initialized');
+      logger.debug('✅ Resize handling initialized');
       
       // Load manifest if provided
       if (this.config.manifestUrl) {
-        console.log('📄 Loading manifest:', this.config.manifestUrl);
+        logger.debug('📄 Loading manifest:', this.config.manifestUrl);
         await this.loadManifest();
       }
       
       // Mark as ready and dispatch event
       this.state.isReady = true;
-      console.log('🎉 Dispatching wrapper:ready event');
+      logger.debug('🎉 Dispatching wrapper:ready event');
       this.dispatchEvent('wrapper:ready', {
         wrapper: this,
         config: this.config,
@@ -69,7 +71,7 @@ class LearningObjectWrapper {
       });
       
     } catch (error) {
-      console.error('Error initializing wrapper:', error);
+      logger.error('Error initializing wrapper:', error);
       this.showError(`Failed to initialize learning object wrapper: ${error.message}`);
     }
   }
@@ -312,7 +314,7 @@ class LearningObjectWrapper {
     const height = this.getContentHeight();
     const width = window.innerWidth;
     
-    console.log(`🔄 Force resize: ${height}px (was ${this.state.lastHeight}px)`);
+    logger.debug(`🔄 Force resize: ${height}px (was ${this.state.lastHeight}px)`);
     
     // Always send regardless of threshold
     window.parent.postMessage({
@@ -339,7 +341,7 @@ class LearningObjectWrapper {
       
       if (checkCount >= maxChecks) {
         clearInterval(dynamicChecker);
-        console.log('🔄 Dynamic content checking completed');
+        logger.debug('🔄 Dynamic content checking completed');
       }
     }, 500);
     
@@ -350,7 +352,7 @@ class LearningObjectWrapper {
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
       iframe.addEventListener('load', () => {
-        console.log('📄 Iframe content loaded, checking size');
+        logger.debug('📄 Iframe content loaded, checking size');
         setTimeout(() => this.sendResizeMessage(), 100);
         setTimeout(() => this.sendResizeMessage(), 500);
         setTimeout(() => this.sendResizeMessage(), 1000);
@@ -377,7 +379,7 @@ class LearningObjectWrapper {
       );
       
       if (isH5PResize) {
-        console.log('📏 H5P resize event detected (fallback handling):', data);
+        logger.debug('📏 H5P resize event detected (fallback handling):', data);
         this.debouncedResize();
       }
     });
@@ -388,7 +390,7 @@ class LearningObjectWrapper {
                         document.querySelector('.h5p-content');
     
     if (isH5PContent) {
-      console.log('🎮 H5P content detected - official H5P resizer should handle resize');
+      logger.debug('🎮 H5P content detected - official H5P resizer should handle resize');
       
       // Lighter checking as fallback (official resizer should handle primary resizing)
       let fallbackCount = 0;
@@ -400,7 +402,7 @@ class LearningObjectWrapper {
         
         if (fallbackCount >= fallbackMax) {
           clearInterval(fallbackChecker);
-          console.log('🔄 H5P fallback checking completed');
+          logger.debug('🔄 H5P fallback checking completed');
         }
       }, 500);
     }
@@ -433,7 +435,7 @@ class LearningObjectWrapper {
       // Handle transcripts
       if (manifest.transcripts) {
         this.config.transcripts = manifest.transcripts;
-        console.log('📝 Transcripts found in manifest:', manifest.transcripts);
+        logger.debug('📝 Transcripts found in manifest:', manifest.transcripts);
         
         // Create transcript UI after loading manifest
         this.createTranscriptUI();
@@ -442,14 +444,14 @@ class LearningObjectWrapper {
       // Handle attribution
       if (manifest.attribution) {
         this.config.attribution = manifest.attribution;
-        console.log('📄 Attribution found in manifest:', manifest.attribution);
+        logger.debug('📄 Attribution found in manifest:', manifest.attribution);
         
         // Create attribution footer after loading manifest
         this.createAttributionFooter();
       }
       
     } catch (error) {
-      console.warn('Failed to load manifest:', error);
+      logger.warn('Failed to load manifest:', error);
     }
   }
 
@@ -477,7 +479,7 @@ class LearningObjectWrapper {
       // Insert header before content
       const headerHTML = this.createHeader();
       contentElement.insertAdjacentHTML('beforebegin', headerHTML);
-      console.log('✅ Header added after manifest load');
+      logger.debug('✅ Header added after manifest load');
     }
   }
 
@@ -553,7 +555,7 @@ class LearningObjectWrapper {
    * Track content events (placeholder for analytics)
    */
   trackContentEvent(action, category, label) {
-    console.log('Analytics Event:', { action, category, label });
+    logger.debug('Analytics Event:', { action, category, label });
     
     // Dispatch analytics event for external tracking
     this.dispatchEvent('analytics:track', {
@@ -568,10 +570,10 @@ class LearningObjectWrapper {
    * Create transcript UI elements (based on original TranscriptManager)
    */
   createTranscriptUI() {
-    console.log('📝 Creating transcript UI');
+    logger.debug('📝 Creating transcript UI');
     
     if (!this.config.transcripts || this.config.transcripts.length === 0) {
-      console.log('No transcripts available, skipping UI creation');
+      logger.debug('No transcripts available, skipping UI creation');
       return;
     }
 
@@ -610,7 +612,7 @@ class LearningObjectWrapper {
     `;
 
     wrapperElement.appendChild(transcriptSection);
-    console.log('✅ Transcript UI created');
+    logger.debug('✅ Transcript UI created');
     
     this.attachTranscriptEventListeners();
     this.loadDefaultTranscript();
@@ -658,12 +660,12 @@ class LearningObjectWrapper {
         }
       });
       
-      console.log('✅ Transcript toggle event listeners attached');
+      logger.debug('✅ Transcript toggle event listeners attached');
     }
 
     if (languageSelect) {
       languageSelect.addEventListener('change', (e) => {
-        console.log('Language changed to:', e.target.value);
+        logger.debug('Language changed to:', e.target.value);
         this.loadTranscript(e.target.value);
       });
       
@@ -674,7 +676,7 @@ class LearningObjectWrapper {
         }
       });
       
-      console.log('✅ Language selector event listeners attached');
+      logger.debug('✅ Language selector event listeners attached');
     }
   }
 
@@ -723,27 +725,27 @@ class LearningObjectWrapper {
    * Load transcript content for a specific language
    */
   async loadTranscript(language) {
-    console.log('📝 Loading transcript for language:', language);
+    logger.debug('📝 Loading transcript for language:', language);
 
     const transcript = this.config.transcripts.find(t => t.language === language);
     if (!transcript) {
-      console.warn(`Transcript not found for language: ${language}`);
+      logger.warn(`Transcript not found for language: ${language}`);
       return;
     }
 
     try {
-      console.log('Fetching transcript from:', transcript.url);
+      logger.debug('Fetching transcript from:', transcript.url);
       const response = await fetch(transcript.url);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
       const content = await response.text();
-      console.log('✅ Transcript loaded, length:', content.length);
+      logger.debug('✅ Transcript loaded, length:', content.length);
 
       this.updateTranscriptDisplay(content);
       
     } catch (error) {
-      console.error('❌ Transcript load error:', error);
+      logger.error('❌ Transcript load error:', error);
       this.showTranscriptError();
     }
   }
@@ -755,7 +757,7 @@ class LearningObjectWrapper {
     const textElement = this.container.querySelector('.lo-transcript-text');
     if (textElement && content) {
       textElement.textContent = content;
-      console.log('✅ Updated transcript display');
+      logger.debug('✅ Updated transcript display');
     }
   }
 
@@ -792,10 +794,10 @@ class LearningObjectWrapper {
    * Create attribution footer (based on original implementation)
    */
   createAttributionFooter() {
-    console.log('📄 Creating attribution footer');
+    logger.debug('📄 Creating attribution footer');
     
     if (!this.config.attribution) {
-      console.log('No attribution data, skipping footer creation');
+      logger.debug('No attribution data, skipping footer creation');
       return;
     }
 
@@ -843,7 +845,7 @@ class LearningObjectWrapper {
     `;
 
     wrapperElement.insertAdjacentHTML('beforeend', attributionHTML);
-    console.log('✅ Attribution footer created');
+    logger.debug('✅ Attribution footer created');
   }
 
   /**
@@ -875,10 +877,8 @@ class LearningObjectWrapper {
   }
 }
 
-// Export for module systems
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = LearningObjectWrapper;
-}
+export default LearningObjectWrapper;
 
-// Make available globally
-window.LearningObjectWrapper = LearningObjectWrapper;
+if (typeof window !== 'undefined') {
+  window.LearningObjectWrapper = LearningObjectWrapper;
+}

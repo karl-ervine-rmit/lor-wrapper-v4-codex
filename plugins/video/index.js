@@ -1,5 +1,5 @@
 import Plyr from 'plyr';
-import 'plyr/dist/plyr.css';
+import './plyr.css';
 
 /**
  * Video Content Plugin
