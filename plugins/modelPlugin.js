@@ -1,3 +1,6 @@
+import '@google/model-viewer';
+import '@google/model-viewer/dist/model-viewer.css';
+
 /**
  * 3D Model Content Plugin
  * Enhanced model-viewer integration with controls and AR support
@@ -17,33 +20,8 @@ export const modelPlugin = {
     console.log('🚀 Loading 3D model:', src);
     const container = wrapper.getContentContainer();
     
-    // Dynamically import model-viewer if not already loaded
-    if (!customElements.get('model-viewer')) {
-      console.log('Loading model-viewer module...');
-      try {
-        await import('https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js');
-        console.log('✅ Model-viewer module loaded');
-      } catch (error) {
-        console.error('❌ Failed to load model-viewer module:', error);
-        throw new Error('Failed to load model-viewer library');
-      }
-      
-      // Load model-viewer CSS
-      if (!document.querySelector('link[href*="model-viewer"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.css';
-        document.head.appendChild(link);
-        console.log('📄 Model-viewer CSS loaded');
-      }
-    } else {
-      console.log('✅ Model-viewer already available');
-    }
-    
-    // Wait for custom element to be fully defined first
-    if (customElements.get('model-viewer')) {
-      await customElements.whenDefined('model-viewer');
-    }
+    // Ensure model-viewer custom element is defined
+    await customElements.whenDefined('model-viewer');
     
     // Create unique model ID
     const modelId = 'model-' + Math.random().toString(36).substr(2, 9);

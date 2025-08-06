@@ -9,7 +9,9 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "vite": "^7.0.6"
+  "dependencies": {
+    "vite": "^7.0.6",
+    "@google/model-viewer": "^4.1.0",
+    "plyr": "^3.7.8"
   }
 }

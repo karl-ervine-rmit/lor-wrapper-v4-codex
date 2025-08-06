@@ -1,3 +1,6 @@
+import Plyr from 'plyr';
+import 'plyr/dist/plyr.css';
+
 /**
  * Video Content Plugin
  * Handles video content with Plyr player integration
@@ -71,61 +74,16 @@ export const videoPlugin = {
       </div>`;
 
     try {
-      // Load Plyr if not already available
-      if (!window.Plyr) {
-        console.log('Loading Plyr...');
-        
-        // Load Plyr CSS first
-        if (!document.querySelector('link[href*="plyr.css"]')) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
-          document.head.appendChild(link);
-          
-          // Wait for CSS to load
-          await new Promise((resolve) => {
-            link.onload = resolve;
-            link.onerror = resolve; // Continue even if CSS fails
-          });
-        }
-        
-        // Load Plyr JS
-        const script = document.createElement('script');
-        script.src = 'https://cdn.plyr.io/3.7.8/plyr.polyfilled.js';
-        document.head.appendChild(script);
-        
-        // Wait for Plyr to load with timeout
-        await new Promise((resolve) => {
-          const timeout = setTimeout(() => {
-            console.warn('Plyr loading timeout');
-            resolve(); // Continue without Plyr
-          }, 5000);
-          
-          script.onload = () => {
-            clearTimeout(timeout);
-            console.log('Plyr loaded successfully');
-            resolve();
-          };
-          
-          script.onerror = () => {
-            clearTimeout(timeout);
-            console.error('Failed to load Plyr');
-            resolve(); // Continue without Plyr
-          };
-        });
-      }
-
       // Wait for DOM to be ready
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      // Initialize Plyr if available
+      // Initialize Plyr
       const videoElement = container.querySelector(`#${videoId}`);
       console.log('Video element found:', !!videoElement);
-      console.log('Plyr available:', !!window.Plyr);
-      
-      if (videoElement && window.Plyr) {
+
+      if (videoElement) {
         console.log('Initializing Plyr for video:', videoId);
-        
+
         try {
           // Initialize with all controls available (Plyr will handle responsive behavior)
           let player = new Plyr(videoElement, {
@@ -135,23 +93,23 @@ export const videoPlugin = {
             // Let Plyr handle responsive controls internally
             responsive: true
           });
-          
+
           // Add resize listener to trigger wrapper resize without recreating player
           let resizeTimer;
-          
+
           const handleResize = () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
               console.log('🔄 Video resize detected, updating wrapper size:', window.innerWidth);
-              
+
               // Just trigger wrapper resize - let Plyr handle its own responsive behavior
               wrapper.triggerResize();
-              
+
               // Hide/show volume slider (not mute) and PiP based on screen size
               const volumeSlider = container.querySelector('.plyr__volume input[type="range"]');
               const pipButton = container.querySelector('[data-plyr="pip"]');
               const airplayButton = container.querySelector('[data-plyr="airplay"]');
-              
+
               if (window.innerWidth <= 480) {
                 // Mobile - hide volume slider but keep mute button and settings
                 if (volumeSlider) volumeSlider.style.display = 'none';
@@ -163,7 +121,7 @@ export const videoPlugin = {
                 if (pipButton) pipButton.style.display = '';
                 if (airplayButton) airplayButton.style.display = '';
               }
-              
+
               // Force a more aggressive resize notification
               setTimeout(() => {
                 // Use forceResize to bypass threshold when controls change
@@ -175,9 +133,9 @@ export const videoPlugin = {
               }, 100);
             }, 250);
           };
-          
+
           window.addEventListener('resize', handleResize);
-          
+
           // Apply initial responsive controls
           setTimeout(() => handleResize(), 100);
 
@@ -186,7 +144,7 @@ export const videoPlugin = {
             playerInstance.on('ready', () => {
               console.log('✅ Plyr player ready');
               wrapperInstance.trackContentEvent('video_ready', 'Video Player', 'Plyr initialized');
-              
+
               // Multiple resize attempts after ready
               setTimeout(() => wrapperInstance.triggerResize(), 100);
               setTimeout(() => wrapperInstance.triggerResize(), 500);
@@ -260,16 +218,16 @@ export const videoPlugin = {
           attachPlayerEvents(player, wrapper);
 
           return player;
-          
+
         } catch (plyrError) {
           console.error('Failed to initialize Plyr:', plyrError);
           console.log('Falling back to basic video controls');
         }
       } else {
-        console.warn('Plyr not available, using basic video controls');
+        console.warn('Video element not found, using basic video controls');
       }
     } catch (error) {
-      console.error('Error loading Plyr:', error);
+      console.error('Error initializing Plyr:', error);
       console.log('Using basic video controls');
     }
 
