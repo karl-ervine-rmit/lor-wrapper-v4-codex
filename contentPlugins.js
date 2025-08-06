@@ -3,6 +3,15 @@
  * Each plugin is now in a separate file for better maintainability
  */
 
+const pluginLoaders = {
+  video: () => import('./plugins/video/index.js').then(m => m.videoPlugin.load),
+  model: () => import('./plugins/model/index.js').then(m => m.modelPlugin.load),
+  pdf: () => import('./plugins/iframe/index.js').then(m => m.iframePlugin.load),
+  h5p: () => import('./plugins/h5p/index.js').then(m => m.h5pPlugin.load),
+  supersplat: () => import('./plugins/supersplat/index.js').then(m => m.superSplatPlugin.load),
+  iframe: () => import('./plugins/iframe/index.js').then(m => m.iframePlugin.load)
+};
+
 export const contentPlugins = {
   /**
    * Dynamically load a content plugin based on type
@@ -10,33 +19,8 @@ export const contentPlugins = {
    * @returns {Promise<Function>} Plugin load function
    */
   async getPlugin(type) {
-    switch (type) {
-      case 'video': {
-        const { videoPlugin } = await import('./plugins/video/index.js');
-        return videoPlugin.load;
-      }
-      case 'model': {
-        const { modelPlugin } = await import('./plugins/model/index.js');
-        return modelPlugin.load;
-      }
-      case 'pdf': {
-        const { iframePlugin } = await import('./plugins/iframe/index.js');
-        return iframePlugin.load;
-      }
-      case 'h5p': {
-        const { h5pPlugin } = await import('./plugins/h5p/index.js');
-        return h5pPlugin.load;
-      }
-      case 'supersplat': {
-        const { superSplatPlugin } = await import('./plugins/supersplat/index.js');
-        return superSplatPlugin.load;
-      }
-      case 'iframe':
-      default: {
-        const { iframePlugin } = await import('./plugins/iframe/index.js');
-        return iframePlugin.load;
-      }
-    }
+    const loader = pluginLoaders[type] || pluginLoaders.iframe;
+    return loader();
   },
 
   /**
