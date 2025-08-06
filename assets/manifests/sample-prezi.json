@@ -1,0 +1,8 @@
+{
+  "id": "sample-prezi",
+  "title": "Sample Prezi Presentation",
+  "type": "iframe",
+  "resources": {
+    "src": "https://prezi.com/view/jtQo3uYcLFn3XKpiUSZn/"
+  }
+}

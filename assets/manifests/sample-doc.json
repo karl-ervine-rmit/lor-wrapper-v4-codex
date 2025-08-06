@@ -1,0 +1,8 @@
+{
+  "id": "sample-doc",
+  "title": "Sample Google Doc",
+  "type": "iframe",
+  "resources": {
+    "src": "https://docs.google.com/document/d/e/2PACX-1vRr3ZrHqYkqkR96Ra-FVFuH-bJ_0eeJROt-w6R5TI5Y0REsD0bqvAjUT69OVb1G2w/pub?embedded=true"
+  }
+}

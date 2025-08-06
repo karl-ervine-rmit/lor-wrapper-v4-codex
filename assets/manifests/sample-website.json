@@ -1,0 +1,8 @@
+{
+  "id": "sample-website",
+  "title": "Sample Embedded Website",
+  "type": "website",
+  "resources": {
+    "src": "https://learninglab.rmit.edu.au"
+  }
+}

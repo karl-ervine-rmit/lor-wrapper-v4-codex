@@ -1,0 +1,8 @@
+{
+  "id": "sample-h5p",
+  "title": "Sample H5P Embed",
+  "type": "iframe",
+  "resources": {
+    "src": "https://h5p.org/h5p/embed/617"
+  }
+}

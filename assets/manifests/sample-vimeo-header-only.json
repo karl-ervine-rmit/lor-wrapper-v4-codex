@@ -1,0 +1,22 @@
+{
+  "id": "sample-vimeo-header-only",
+  "type": "video",
+  "title": "Vimeo Demo Video",
+  "description": "Vimeo video with header but no transcript functionality",
+  "src": "https://vimeo.com/76979871",
+  "showHeader": true,
+  "attribution": {
+    "title": {
+      "text": "Vimeo Demo Video",
+      "url": "https://vimeo.com/76979871"
+    },
+    "author": {
+      "text": "Vimeo Creator",
+      "url": "https://vimeo.com/user123456"
+    },
+    "license": {
+      "text": "CC BY-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nd/4.0"
+    }
+  }
+}

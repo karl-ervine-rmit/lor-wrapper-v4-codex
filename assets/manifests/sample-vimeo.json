@@ -1,0 +1,29 @@
+{
+  "id": "sample-vimeo-video",
+  "type": "video",
+  "title": "Vimeo Demo Video",
+  "description": "Demonstration of Plyr video player with Vimeo integration",
+  "src": "https://vimeo.com/76979871",
+  "showHeader": true,
+  "transcripts": [
+    {
+      "language": "en",
+      "url": "assets/transcripts/sample-transcript-en.txt",
+      "default": true
+    }
+  ],
+  "attribution": {
+    "title": {
+      "text": "Vimeo Demo Video",
+      "url": "https://vimeo.com/76979871"
+    },
+    "author": {
+      "text": "Vimeo Creator",
+      "url": "https://vimeo.com/user123456"
+    },
+    "license": {
+      "text": "CC BY-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nd/4.0"
+    }
+  }
+}

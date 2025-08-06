@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude init)",
+      "Bash(curl:*)",
+      "WebFetch(domain:localhost)",
+      "mcp__ide__getDiagnostics",
+      "WebFetch(domain:deft-crostata-7ef442.netlify.app)",
+      "Bash(python3:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": []
+  }
+}

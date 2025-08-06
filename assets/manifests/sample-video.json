@@ -1,0 +1,35 @@
+{
+  "id": "sample-video",
+  "type": "video",
+  "title": "Big Buck Bunny Demo Video",
+  "description": "Demonstration video showcasing the learning object wrapper with transcripts",
+  "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  "poster": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+  "showHeader": true,
+  "transcripts": [
+    {
+      "language": "en",
+      "url": "assets/transcripts/sample-transcript-en.txt",
+      "default": true
+    },
+    {
+      "language": "es", 
+      "url": "assets/transcripts/sample-transcript-es.txt",
+      "default": false
+    }
+  ],
+  "attribution": {
+    "title": {
+      "text": "Big Buck Bunny",
+      "url": "https://peach.blender.org/"
+    },
+    "author": {
+      "text": "Blender Foundation",
+      "url": "https://www.blender.org/foundation/"
+    },
+    "license": {
+      "text": "CC BY 3.0",
+      "url": "https://creativecommons.org/licenses/by/3.0/"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "sample-model",
+  "title": "Astronaut model",
+  "type": "model",
+  "resources": {
+    "model": "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+    "iosSrc": "https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+  },
+  "attribution": {
+    "title": {
+      "text": "Astronaut model",
+      "url": "https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+    },
+    "author": {
+      "text": "Poly (Google)",
+      "url": ""
+    },
+    "license": {
+      "text": "CC‑BY 2.0",
+      "url": "https://creativecommons.org/licenses/by/2.0/"
+    }
+  }
+}

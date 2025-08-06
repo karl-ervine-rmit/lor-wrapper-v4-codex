@@ -1,0 +1,15 @@
+{
+  "name": "Learning Object Wrapper",
+  "version": "v4",
+  "date": "2025-07-25",
+  "features": [
+    "video",
+    "model",
+    "pdf",
+    "iframe",
+    "type-auto",
+    "transcripts",
+    "toggle",
+    "manifest"
+  ]
+}

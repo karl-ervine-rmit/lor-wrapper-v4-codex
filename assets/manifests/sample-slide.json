@@ -1,0 +1,8 @@
+{
+  "id": "sample-slide",
+  "title": "Sample Google Slide",
+  "type": "iframe",
+  "resources": {
+    "src": "https://docs.google.com/presentation/d/e/2PACX-1vQsYKdQ9YwMS53AV9uzxUz8HzrRkL8Q_oDWkuIfbMFNkWiAQzkEjRaAYGRQw0ZZF5_RwKeYRDWwNPMt/embed?start=false&loop=false&delayms=3000"
+  }
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Object Embed</title>
+  <link rel="stylesheet" href="./wrapper.css" />
+  
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://cdn.plyr.io">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://commondatastorage.googleapis.com">
+  <link rel="dns-prefetch" href="https://youtube.com">
+  <link rel="dns-prefetch" href="https://vimeo.com">
+  
+  <!-- Preload Plyr CSS for video content -->
+  <link rel="preload" href="https://cdn.plyr.io/3.7.8/plyr.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"></noscript>
+</head>
+<body>
+  <div id="learning-object-container"></div>
+  
+  <!-- Load vanilla JS wrapper and modular content plugins -->
+  <script src="./wrapper.js"></script>
+  <script type="module" src="./contentPlugins.js"></script>
+  
+  <script type="module">
+    import { contentPlugins } from './contentPlugins.js';
+
+    async function initializeLearningObject() {
+      const params = new URLSearchParams(window.location.search);
+      const container = document.getElementById('learning-object-container');
+      
+      // Create wrapper configuration from URL parameters
+      const config = {
+        type: params.get('type') || 'auto',
+        title: params.get('t') || '',
+        showHeader: params.has('h') || params.get('show-header') === 'true',
+        manifestUrl: params.get('m'),
+        src: params.get('src'),
+        backgroundColor: params.get('bg'),
+        // Attribution parameters (short form)
+        attribution: {
+          title: {
+            text: params.get('at') || '',  // attribution-title
+            url: params.get('atu') || ''   // attribution-title-url
+          },
+          author: {
+            text: params.get('aa') || '',  // attribution-author
+            url: params.get('aau') || ''   // attribution-author-url
+          },
+          license: {
+            text: params.get('al') || '',  // attribution-license
+            url: params.get('alu') || ''   // attribution-license-url
+          }
+        }
+      };
+      
+      console.log('Initializing wrapper with config:', config);
+      
+      // Create wrapper instance
+      const wrapper = new LearningObjectWrapper(container, config);
+      
+      // Listen for wrapper ready event
+      document.addEventListener('wrapper:ready', async (event) => {
+        console.log('🎉 Wrapper ready!');
+        
+        const { wrapper: wrapperInstance, config: wrapperConfig } = event.detail;
+        
+        // Performance optimization: preload resources based on content type
+        const contentType = config.type;
+        if (contentType === 'video' || contentType === 'auto') {
+          // Preload Plyr JavaScript for video content
+          const script = document.createElement('link');
+          script.rel = 'preload';
+          script.href = 'https://cdn.plyr.io/3.7.8/plyr.polyfilled.js';
+          script.as = 'script';
+          document.head.appendChild(script);
+        }
+        
+        if (contentType === 'model' || contentType === 'auto') {
+          // Preload model-viewer for 3D content
+          const script = document.createElement('link');
+          script.rel = 'preload';
+          script.href = 'https://unpkg.com/@google/model-viewer@^3.4.0/dist/model-viewer.min.js';
+          script.as = 'script';
+          document.head.appendChild(script);
+        }
+        
+        // Parse captions from URL parameters
+        const captions = [];
+        if (params.get('cs')) {
+          captions.push({
+            src: params.get('cs'),                    // caption-src
+            language: params.get('cl') || 'en',     // caption-lang
+            label: params.get('clb') || 'English',  // caption-label
+            default: params.get('cd') === 'true'    // caption-default
+          });
+        }
+
+        // Determine content source and type
+        let contentConfig = {
+          src: config.src,
+          type: config.type,
+          title: config.title,
+          captions: captions,
+          poster: params.get('p') || '',  // poster
+          iosSrc: params.get('ios') || '' // iOS USDZ source for AR
+        };
+        
+        // If we have a manifest, the wrapper already loaded it and updated config
+        if (wrapperConfig.manifestUrl) {
+          try {
+            const manifest = await fetch(wrapperConfig.manifestUrl).then(r => r.json());
+            
+            // Manifest src and type cannot be overridden by URL parameters
+            if (manifest.type) {
+              contentConfig.type = manifest.type;
+            }
+            
+            // Get source from manifest (manifest src takes precedence)
+            if (manifest.src) {
+              contentConfig.src = manifest.src;
+            } else if (manifest.resources) {
+              contentConfig.src = manifest.resources.video || 
+                                manifest.resources.model || 
+                                manifest.resources.pdf || 
+                                manifest.resources.iframe ||
+                                manifest.resources.src;
+                                
+              // Handle iOS USDZ source for models
+              if (manifest.resources.iosSrc) {
+                contentConfig.iosSrc = contentConfig.iosSrc || manifest.resources.iosSrc;
+              }
+            }
+            
+            // Other manifest properties can still be overridden by URL params
+            contentConfig.title = contentConfig.title || manifest.title;
+            
+            // Handle captions and poster for video content
+            if (contentConfig.type === 'video') {
+              if (manifest.captions) {
+                contentConfig.captions = manifest.captions;
+              }
+              if (manifest.poster) {
+                contentConfig.poster = contentConfig.poster || manifest.poster;
+              }
+            }
+            
+            // Handle model-specific alt text
+            if (contentConfig.type === 'model' && manifest.alt) {
+              contentConfig.alt = manifest.alt;
+            }
+            
+            // Merge attribution (URL params override manifest)
+            if (manifest.attribution) {
+              wrapperInstance.config.attribution = {
+                title: {
+                  text: config.attribution.title.text || manifest.attribution.title?.text || '',
+                  url: config.attribution.title.url || manifest.attribution.title?.url || ''
+                },
+                author: {
+                  text: config.attribution.author.text || manifest.attribution.author?.text || '',
+                  url: config.attribution.author.url || manifest.attribution.author?.url || ''
+                },
+                license: {
+                  text: config.attribution.license.text || manifest.attribution.license?.text || '',
+                  url: config.attribution.license.url || manifest.attribution.license?.url || ''
+                }
+              };
+            }
+          } catch (error) {
+            console.error('Error processing manifest:', error);
+          }
+        }
+        
+        // Auto-detect content type if needed
+        if (contentConfig.type === 'auto' && contentConfig.src) {
+          contentConfig.type = contentPlugins.detectType(contentConfig.src);
+          console.log('🔍 Auto-detected type:', contentConfig.type);
+        }
+        
+        console.log('📦 Loading content with config:', contentConfig);
+        console.log('🎯 Available content plugins:', Object.keys(contentPlugins));
+        
+        // Load content using appropriate plugin
+        try {
+          const handler = contentPlugins[contentConfig.type] || contentPlugins.iframe;
+          console.log('🚀 Using handler for type:', contentConfig.type);
+          
+          if (!handler) {
+            throw new Error(`No handler found for content type: ${contentConfig.type}`);
+          }
+          
+          await handler(wrapperInstance, contentConfig);
+          console.log('✅ Content loaded successfully');
+          
+          // Trigger resize after content loads
+          setTimeout(() => wrapperInstance.triggerResize(), 500);
+          
+        } catch (error) {
+          console.error('❌ Error loading content:', error);
+          wrapperInstance.showError(`Failed to load ${contentConfig.type} content: ${error.message}`);
+        }
+      });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeLearningObject);
+    } else {
+      initializeLearningObject();
+    }
+  </script>
+</body>
+</html>

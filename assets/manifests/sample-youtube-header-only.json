@@ -1,0 +1,22 @@
+{
+  "id": "sample-youtube-header-only",
+  "type": "video",
+  "title": "Plyr Demo Video (YouTube)",
+  "description": "YouTube video with header but no transcript functionality",
+  "src": "https://www.youtube.com/watch?v=bTqVqk7FSmY",
+  "showHeader": true,
+  "attribution": {
+    "title": {
+      "text": "Plyr Demo Video",
+      "url": "https://www.youtube.com/watch?v=bTqVqk7FSmY"
+    },
+    "author": {
+      "text": "Plyr Community",
+      "url": "https://github.com/sampotts/plyr"
+    },
+    "license": {
+      "text": "CC BY-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nd/4.0"
+    }
+  }
+}

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Object Wrapper v4 - Test Suite</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f8f9fa;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .intro {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .content-type {
+        margin-bottom: 3rem;
+      }
+      .content-type h2 {
+        color: #34495e;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .test-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .test-grid.three-col {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media (max-width: 1200px) {
+        .test-grid.three-col {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .test-grid,
+        .test-grid.three-col {
+          grid-template-columns: 1fr;
+        }
+      }
+      .test-item {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .test-header {
+        background: #ecf0f1;
+        padding: 1rem;
+        border-bottom: 1px solid #bdc3c7;
+      }
+      .test-title {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+      .test-description {
+        margin: 0.5rem 0 0 0;
+        font-size: 0.875rem;
+        color: #7f8c8d;
+      }
+      .test-content {
+        height: auto;
+      }
+      iframe {
+        width: 100%;
+        height: 100px; /* Start small, let resize script handle it */
+        border: none;
+      }
+
+      .parameter-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 0.9em;
+      }
+
+      .parameter-table th,
+      .parameter-table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #dee2e6;
+      }
+
+      .parameter-table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .parameter-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      .parameter-table code {
+        background: #e9ecef;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: "Monaco", "Menlo", monospace;
+        font-size: 0.85em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Learning Object Wrapper v4 - Test Suite</h1>
+
+      <div class="intro">
+        <h3>Universal Content Wrapper v4</h3>
+        <p>
+          This demonstrates the learning object wrapper supporting multiple
+          content types with comprehensive features:
+        </p>
+        <ul>
+          <li>
+            <strong>Video Support</strong> - HTML5, YouTube, Vimeo with Plyr player, captions, and responsive controls
+          </li>
+          <li>
+            <strong>3D Models</strong> - Interactive model-viewer with AR support and camera controls
+          </li>
+          <li>
+            <strong>Responsive Design</strong> - Mobile-optimized layouts and controls (480px breakpoint)
+          </li>
+          <li>
+            <strong>Accessibility</strong> - Screen reader support, transcripts, and proper ARIA labels
+          </li>
+          <li>
+            <strong>Theming</strong> - Automatic dark/light mode with manual override
+          </li>
+          <li>
+            <strong>Attribution</strong> - Flexible footer system with underlined links
+          </li>
+        </ul>
+        <p>
+          All examples support automatic iframe resizing for LMS integration, 
+          manifest-based configuration, and comprehensive analytics tracking.
+        </p>
+      </div>
+
+      <!-- VIDEO CONTENT -->
+      <div class="content-type">
+        <h2>Video Content</h2>
+        <div class="test-grid two-col">
+          <!-- MP4 Video Examples -->
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">MP4 Video - Full</h3>
+              <p class="test-description">
+                Complete experience with header, transcript toggle, and
+                attribution
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-video.json&h=true"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">MP4 Video - With Captions</h3>
+              <p class="test-description">
+                Video with closed captions in multiple languages (English,
+                Spanish)
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-video-captions.json"
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- YouTube Video Examples -->
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">YouTube Video - Full</h3>
+              <p class="test-description">
+                YouTube with Plyr controls, header, transcript, and attribution
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-youtube.json"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">YouTube Video - Header Only</h3>
+              <p class="test-description">
+                YouTube with header but no transcript functionality
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-youtube-header-only.json"
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- Vimeo Video Examples -->
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">Vimeo Video - Full</h3>
+              <p class="test-description">
+                Vimeo with Plyr controls, header, transcript, and attribution
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-vimeo.json"
+              ></iframe>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 3D MODEL CONTENT -->
+      <div class="content-type">
+        <h2>3D Model Content</h2>
+        <div class="test-grid">
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">3D Model with Header</h3>
+              <p class="test-description">
+                Interactive 3D model with title header using model-viewer
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-model.json&h=true"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDF CONTENT -->
+      <div class="content-type">
+        <h2>PDF Content</h2>
+        <div class="test-grid">
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">PDF with Header</h3>
+              <p class="test-description">
+                PDF viewer with title header using Google Docs viewer
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-pdf.json&h=true"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- H5P/IFRAME CONTENT -->
+      <div class="content-type">
+        <h2>Interactive Content (H5P/Iframe)</h2>
+        <div class="test-grid">
+          <div class="test-item">
+            <div class="test-header">
+              <h3 class="test-title">H5P with Header</h3>
+              <p class="test-description">
+                H5P interactive content with title header
+              </p>
+            </div>
+            <div class="test-content">
+              <iframe
+                src="embed.html?m=assets/manifests/sample-h5p.json&h=true"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Implementation Guide -->
+    <div class="content-type">
+      <h2>Implementation Guide</h2>
+
+      <div
+        style="
+          background: white;
+          padding: 1.5rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h3>Available URL Parameters:</h3>
+        <table class="parameter-table">
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td><code>m</code></td>
+            <td>string</td>
+            <td>Path to manifest file</td>
+            <td><code>assets/manifests/sample-video.json</code></td>
+          </tr>
+          <tr>
+            <td><code>type</code></td>
+            <td>string</td>
+            <td>Content type (video, model, pdf, h5p, iframe)</td>
+            <td><code>video</code></td>
+          </tr>
+          <tr>
+            <td><code>src</code></td>
+            <td>string</td>
+            <td>Content source URL</td>
+            <td><code>https://youtube.com/watch?v=123</code></td>
+          </tr>
+          <tr>
+            <td><code>t</code></td>
+            <td>string</td>
+            <td>Learning object title</td>
+            <td><code>My+Learning+Video</code></td>
+          </tr>
+          <tr>
+            <td><code>h</code></td>
+            <td>boolean</td>
+            <td>Show/hide header</td>
+            <td><code>true</code> or <code>false</code></td>
+          </tr>
+          <tr>
+            <td><code>bg</code></td>
+            <td>string</td>
+            <td>Custom background color</td>
+            <td><code>%23e3f2fd</code> (use %23 for #)</td>
+          </tr>
+        </table>
+
+        <h3>Video Parameters:</h3>
+        <p>For HTML5 video configuration including captions and poster images</p>
+        <table class="parameter-table">
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td><code>p</code></td>
+            <td>string</td>
+            <td>Poster image URL for HTML5 videos</td>
+            <td><code>assets/images/poster.jpg</code></td>
+          </tr>
+          <tr>
+            <td><code>cs</code></td>
+            <td>string</td>
+            <td>Caption file URL (WebVTT format)</td>
+            <td><code>assets/captions/en.vtt</code></td>
+          </tr>
+          <tr>
+            <td><code>cl</code></td>
+            <td>string</td>
+            <td>Caption language code</td>
+            <td><code>en</code></td>
+          </tr>
+          <tr>
+            <td><code>clb</code></td>
+            <td>string</td>
+            <td>Caption language label</td>
+            <td><code>English</code></td>
+          </tr>
+          <tr>
+            <td><code>cd</code></td>
+            <td>boolean</td>
+            <td>Set as default caption track</td>
+            <td><code>true</code></td>
+          </tr>
+        </table>
+
+        <h3>Attribution Parameters:</h3>
+        <p>
+          For generating attribution footers in format:
+          <em>"Title" by Author is licensed under License</em>
+        </p>
+        <table class="parameter-table">
+          <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td><code>at</code></td>
+            <td>string</td>
+            <td>Attribution title text</td>
+            <td><code>My+Video</code></td>
+          </tr>
+          <tr>
+            <td><code>atu</code></td>
+            <td>string</td>
+            <td>Attribution title URL</td>
+            <td><code>https://example.com</code></td>
+          </tr>
+          <tr>
+            <td><code>aa</code></td>
+            <td>string</td>
+            <td>Attribution author text</td>
+            <td><code>John+Doe</code></td>
+          </tr>
+          <tr>
+            <td><code>aau</code></td>
+            <td>string</td>
+            <td>Attribution author URL</td>
+            <td><code>https://johndoe.com</code></td>
+          </tr>
+          <tr>
+            <td><code>al</code></td>
+            <td>string</td>
+            <td>Attribution license text</td>
+            <td><code>CC+BY-ND+4.0</code></td>
+          </tr>
+          <tr>
+            <td><code>alu</code></td>
+            <td>string</td>
+            <td>Attribution license URL</td>
+            <td><code>https://creativecommons.org/licenses/by-nd/4.0</code></td>
+          </tr>
+        </table>
+
+        <h3>Example Usage:</h3>
+        <p><strong>Video with Captions and Poster:</strong></p>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+          "
+        >
+embed.html?type=video&src=video.mp4&t=My+Video&h=true&p=poster.jpg&cs=captions.vtt&cl=en&clb=English&cd=true</pre
+        >
+
+        <p><strong>YouTube Video with Attribution:</strong></p>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+          "
+        >
+embed.html?type=video&src=https://youtube.com/watch?v=123&t=My+Video&h=true&at=My+Video&atu=https://example.com&aa=John+Doe&aau=https://johndoe.com&al=CC+BY-ND+4.0&alu=https://creativecommons.org/licenses/by-nd/4.0</pre
+        >
+
+        <p><strong>3D Model with AR Support:</strong></p>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+          "
+        >
+embed.html?type=model&src=model.glb&t=3D+Demo&h=true</pre
+        >
+
+        <p><strong>Manifest-based (Recommended):</strong></p>
+        <pre
+          style="
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.9em;
+          "
+        >
+embed.html?m=assets/manifests/my-video.json</pre
+        >
+
+        <h3>Priority Order:</h3>
+        <ol>
+          <li>
+            <strong>Manifest File (src & type)</strong> - Highest priority for content source and type (cannot be overridden)
+          </li>
+          <li>
+            <strong>URL Parameters</strong> - Override manifest values for title, captions, poster, attribution, etc.
+          </li>
+          <li><strong>Manifest File (other values)</strong> - Base configuration for remaining properties</li>
+          <li><strong>Default Values</strong> - Lowest priority</li>
+        </ol>
+        
+        <p><strong>Note:</strong> When using a manifest file, the <code>src</code> and <code>type</code> parameters cannot be overridden by URL parameters for security and consistency reasons.</p>
+      </div>
+    </div>
+
+    <script>
+      // Enhanced iframe resize: handle LTI, wrapper, and H5P messages
+      window.addEventListener("message", (event) => {
+        const d = event.data;
+
+        // Handle our standard resize messages
+        const isStandardResize =
+          d && (d.subject === "lti.frameResize" || d.type === "wrapper:resize");
+
+        // Handle H5P resize messages (various formats)
+        const isH5PResize =
+          d &&
+          (d.type === "h5p" ||
+            d.action === "resize" ||
+            (d.context && d.context === "h5p") ||
+            (d.subject && d.subject.includes("h5p")) ||
+            (typeof d.height === "number" &&
+              d.height > 0 &&
+              event.origin.includes("h5p")));
+
+        if (!isStandardResize && !isH5PResize) return;
+
+        // find the <iframe> whose contentWindow is the message source
+        const iframe = Array.from(document.querySelectorAll("iframe")).find(
+          (f) => f.contentWindow === event.source
+        );
+
+        if (!iframe) {
+          console.warn("No matching iframe for resize message");
+          return;
+        }
+
+        // Use the exact height from the message (no min/max constraints)
+        const newH = d.height;
+
+        // Log different message types
+        if (isH5PResize) {
+          console.log(`🎮 H5P resize message:`, d);
+        }
+
+        if (newH && Math.abs(iframe.offsetHeight - newH) > 5) {
+          iframe.style.height = `${newH}px`;
+
+          // Also update container height to match
+          const testContent = iframe.closest(".test-content");
+          if (testContent) {
+            testContent.style.height = `${newH}px`;
+          }
+
+          const messageType = isH5PResize ? "H5P" : "Standard";
+          console.log(
+            `📏 ${messageType} resized iframe src="${iframe.src}" → ${newH}px`
+          );
+        }
+      });
+
+      // Start with minimal height, let resize messages handle the rest
+      document.addEventListener("DOMContentLoaded", function () {
+        const iframes = document.querySelectorAll("iframe");
+        iframes.forEach((iframe) => {
+          iframe.style.height = "100px"; // Start minimal
+
+          // Enhanced monitoring for H5P and dynamic content
+          iframe.addEventListener("load", function () {
+            console.log("📄 Iframe loaded:", iframe.src);
+
+            // Check if this is H5P content
+            const isH5P =
+              iframe.src.includes("h5p") || iframe.src.includes("H5P");
+
+            if (isH5P) {
+              console.log(
+                "🎮 H5P iframe detected - enabling aggressive monitoring"
+              );
+
+              // Very frequent checking for H5P content (every 200ms for 2 minutes)
+              let h5pCheckCount = 0;
+              const h5pMaxChecks = 600; // 2 minutes at 200ms intervals
+
+              const h5pChecker = setInterval(() => {
+                checkIframeHeight(iframe);
+                h5pCheckCount++;
+
+                if (h5pCheckCount >= h5pMaxChecks) {
+                  clearInterval(h5pChecker);
+                  console.log("🔄 H5P aggressive checking completed");
+                }
+              }, 200);
+            }
+
+            // Standard checking for all content
+            setTimeout(() => checkIframeHeight(iframe), 100);
+            setTimeout(() => checkIframeHeight(iframe), 500);
+            setTimeout(() => checkIframeHeight(iframe), 1000);
+            setTimeout(() => checkIframeHeight(iframe), 2000);
+            setTimeout(() => checkIframeHeight(iframe), 5000);
+            setTimeout(() => checkIframeHeight(iframe), 10000);
+          });
+        });
+        console.log("🎯 Test page loaded - iframe resize listener active");
+        console.log("📊 Found", iframes.length, "iframes to monitor");
+      });
+
+      // Additional function to manually check iframe height
+      function checkIframeHeight(iframe) {
+        try {
+          if (iframe.contentDocument) {
+            const contentHeight = Math.max(
+              iframe.contentDocument.body.scrollHeight,
+              iframe.contentDocument.body.offsetHeight,
+              iframe.contentDocument.documentElement.scrollHeight,
+              iframe.contentDocument.documentElement.offsetHeight
+            );
+
+            if (
+              contentHeight > 100 &&
+              Math.abs(iframe.offsetHeight - contentHeight) > 10
+            ) {
+              iframe.style.height = contentHeight + "px";
+
+              const testContent = iframe.closest(".test-content");
+              if (testContent) {
+                testContent.style.height = contentHeight + "px";
+              }
+
+              console.log(
+                `🔄 Manual resize: ${iframe.src} → ${contentHeight}px`
+              );
+            }
+          }
+        } catch (e) {
+          // Cross-origin iframe, can't access content - rely on postMessage
+          console.log("🔒 Cross-origin iframe, using postMessage only");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "id": "sample-video-captions",
+  "type": "video",
+  "title": "Learning Object Demo with Captions",
+  "description": "Demonstration video showcasing caption support in the learning object wrapper",
+  "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  "poster": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+  "showHeader": true,
+  "captions": [
+    {
+      "src": "assets/captions/sample-captions-en.vtt",
+      "language": "en",
+      "label": "English",
+      "default": true
+    },
+    {
+      "src": "assets/captions/sample-captions-es.vtt", 
+      "language": "es",
+      "label": "Español",
+      "default": false
+    }
+  ],
+  "transcripts": [
+    {
+      "language": "en",
+      "url": "assets/transcripts/sample-transcript-en.txt",
+      "default": true
+    }
+  ],
+  "attribution": {
+    "title": {
+      "text": "Big Buck Bunny Demo",
+      "url": "https://peach.blender.org/"
+    },
+    "author": {
+      "text": "Blender Foundation",
+      "url": "https://www.blender.org/foundation/"
+    },
+    "license": {
+      "text": "CC BY 3.0",
+      "url": "https://creativecommons.org/licenses/by/3.0/"
+    }
+  }
+}
