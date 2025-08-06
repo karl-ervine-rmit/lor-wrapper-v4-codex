@@ -14,10 +14,29 @@ export const modelPlugin = {
    * @param {string} [config.alt] - Alt text for accessibility
    */
   async load(wrapper, { src, iosSrc, title = '', alt = '3D model' }) {
-    await Promise.all([
-      import('@google/model-viewer'),
-      import('./style.css')
-    ]);
+    const loadStylesheet = (href) =>
+      new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = () => resolve();
+        link.onerror = reject;
+        document.head.appendChild(link);
+      });
+
+    try {
+      await import('@google/model-viewer');
+    } catch {
+      await import(
+        'https://cdn.jsdelivr.net/npm/@google/model-viewer@4.1.0/+esm'
+      );
+    }
+
+    try {
+      await loadStylesheet(new URL('./style.css', import.meta.url).href);
+    } catch {
+      // Continue without extra styles if stylesheet fails to load
+    }
 
     console.log('🚀 Loading 3D model:', src);
     const container = wrapper.getContentContainer();
