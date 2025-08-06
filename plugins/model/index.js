@@ -1,5 +1,5 @@
 import '@google/model-viewer';
-import '@google/model-viewer/dist/model-viewer.css';
+import './style.css';
 
 /**
  * 3D Model Content Plugin
@@ -167,32 +167,34 @@ export const modelPlugin = {
       }
         
       switch (action) {
-        case 'reset':
+        case 'reset': {
           currentModelViewer.cameraOrbit = "0deg 75deg 100%";
           currentModelViewer.cameraTarget = "auto";
           wrapper.trackContentEvent('camera_reset', '3D Model', 'Camera reset');
           break;
-          
-        case 'ar':
+        }
+
+        case 'ar': {
           if (currentModelViewer.canActivateAR) {
             currentModelViewer.activateAR();
             wrapper.trackContentEvent('ar_activated', '3D Model', 'AR mode activated');
           } else {
-            const message = isMobile 
+            const message = isMobile
               ? 'AR is not available on this device. Make sure your browser supports WebXR.'
               : 'AR is only available on mobile devices. Please open this page on a mobile device with AR support.';
             alert(message);
             wrapper.trackContentEvent('ar_unavailable', '3D Model', 'AR not supported');
           }
           break;
-          
-        case 'rotate':
+        }
+
+        case 'rotate': {
           console.log('🔄 Rotation button clicked');
           const isAutoRotating = currentModelViewer.hasAttribute('auto-rotate');
           const rotateText = button.querySelector('.rotate-text');
-          
+
           console.log('Current auto-rotate state:', isAutoRotating);
-          
+
           if (isAutoRotating) {
             // Stop rotation
             currentModelViewer.removeAttribute('auto-rotate');
@@ -203,7 +205,7 @@ export const modelPlugin = {
             // Start rotation with immediate effect
             currentModelViewer.setAttribute('auto-rotate', '');
             currentModelViewer.setAttribute('auto-rotate-delay', '0');
-            
+
             // Force restart rotation by briefly removing and re-adding
             setTimeout(() => {
               currentModelViewer.removeAttribute('auto-rotate');
@@ -212,12 +214,13 @@ export const modelPlugin = {
                 currentModelViewer.setAttribute('auto-rotate-delay', '0');
               }, 10);
             }, 10);
-            
+
             rotateText.textContent = 'Pause Rotation';
             console.log('✅ Auto-rotation enabled with immediate restart');
             wrapper.trackContentEvent('auto_rotate_enabled', '3D Model', 'Auto-rotation enabled');
           }
           break;
+        }
       }
     }
 

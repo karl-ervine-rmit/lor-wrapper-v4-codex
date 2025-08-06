@@ -6,21 +6,13 @@
   <title>Learning Object Embed</title>
   <link rel="stylesheet" href="./wrapper.css" />
   
-  <!-- Preload critical resources -->
-  <link rel="preconnect" href="https://cdn.plyr.io">
-  <link rel="preconnect" href="https://unpkg.com">
-  <link rel="dns-prefetch" href="https://commondatastorage.googleapis.com">
-  <link rel="dns-prefetch" href="https://youtube.com">
-  <link rel="dns-prefetch" href="https://vimeo.com">
-  
 </head>
 <body>
   <div id="learning-object-container"></div>
-  
-  <!-- Load vanilla JS wrapper -->
-  <script src="./wrapper.js"></script>
 
   <script type="module">
+    import logger from './utils/logger.js';
+    import LearningObjectWrapper from './wrapper.js';
     import { contentPlugins } from './contentPlugins.js';
 
     async function initializeLearningObject() {
@@ -52,14 +44,14 @@
         }
       };
       
-      console.log('Initializing wrapper with config:', config);
+      logger.debug('Initializing wrapper with config:', config);
       
       // Create wrapper instance
       const wrapper = new LearningObjectWrapper(container, config);
       
       // Listen for wrapper ready event
       document.addEventListener('wrapper:ready', async (event) => {
-        console.log('🎉 Wrapper ready!');
+        logger.debug('🎉 Wrapper ready!');
         
         const { wrapper: wrapperInstance, config: wrapperConfig } = event.detail;
         
@@ -146,36 +138,36 @@
               };
             }
           } catch (error) {
-            console.error('Error processing manifest:', error);
+            logger.error('Error processing manifest:', error);
           }
         }
         
         // Auto-detect content type if needed
         if (contentConfig.type === 'auto' && contentConfig.src) {
           contentConfig.type = contentPlugins.detectType(contentConfig.src);
-          console.log('🔍 Auto-detected type:', contentConfig.type);
+          logger.debug('🔍 Auto-detected type:', contentConfig.type);
         }
         
-        console.log('📦 Loading content with config:', contentConfig);
-        console.log('🎯 Available content plugins:', Object.keys(contentPlugins));
+        logger.debug('📦 Loading content with config:', contentConfig);
+        logger.debug('🎯 Available content plugins:', Object.keys(contentPlugins));
         
         // Load content using appropriate plugin
         try {
           const handler = await contentPlugins.getPlugin(contentConfig.type);
-          console.log('🚀 Using handler for type:', contentConfig.type);
+          logger.debug('🚀 Using handler for type:', contentConfig.type);
 
           if (!handler) {
             throw new Error(`No handler found for content type: ${contentConfig.type}`);
           }
 
           await handler(wrapperInstance, contentConfig);
-          console.log('✅ Content loaded successfully');
+          logger.debug('✅ Content loaded successfully');
           
           // Trigger resize after content loads
           setTimeout(() => wrapperInstance.triggerResize(), 500);
           
         } catch (error) {
-          console.error('❌ Error loading content:', error);
+          logger.error('❌ Error loading content:', error);
           wrapperInstance.showError(`Failed to load ${contentConfig.type} content: ${error.message}`);
         }
       });
