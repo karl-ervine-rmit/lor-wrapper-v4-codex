@@ -1,0 +1,19 @@
+{
+  "id": "sample-supersplat",
+  "type": "supersplat",
+  "title": "Guillotine Gaussian Splat",
+  "src": "assets/3d/20250610_Guillotine_CleanUp.ply",
+  "showHeader": true,
+  "attribution": {
+    "title": {
+      "text": "Guillotine point cloud"
+    },
+    "author": {
+      "text": "Unknown"
+    },
+    "license": {
+      "text": "CC0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  }
+}

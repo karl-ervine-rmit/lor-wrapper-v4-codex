@@ -1,6 +1,7 @@
 /**
  * SuperSplat Content Plugin
  * Integration with PlayCanvas SuperSplat viewer for Gaussian Splatting visualization
+ * https://github.com/playcanvas/supersplat-viewer
  */
 
 export const superSplatPlugin = {

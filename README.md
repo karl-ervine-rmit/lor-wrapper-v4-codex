@@ -7,6 +7,7 @@ A universal wrapper for embedding different types of learning content with suppo
 ## ✅ Features
 
 - **Multiple Content Types**: Video (HTML5, YouTube, Vimeo), 3D Models, PDFs, H5P, Websites
+- **Gaussian Splat Viewer**: PlayCanvas SuperSplat integration for .ply point clouds
 - **Video Player**: Plyr integration with responsive controls and caption support
 - **3D Models**: Model-viewer with AR support and interactive controls
 - **Responsive Design**: Mobile-optimized controls and layouts
@@ -24,7 +25,7 @@ A universal wrapper for embedding different types of learning content with suppo
 - `embed.html` — Universal wrapper endpoint
 - `wrapper.js` — Core wrapper class (vanilla JavaScript)
 - `wrapper.css` — Complete styling system
-- `plugins/` — Content type plugins (video, model, PDF, etc.)
+- `plugins/` — Content type plugins (video, model, Gaussian splat, PDF, etc.)
 - `assets/manifests/` — Manifest examples
 - `assets/transcripts/` — Sample transcript files
 - `assets/captions/` — Sample caption files (WebVTT)

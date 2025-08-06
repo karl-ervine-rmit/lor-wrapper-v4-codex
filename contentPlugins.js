@@ -7,6 +7,7 @@ import { videoPlugin } from './plugins/videoPlugin.js';
 import { modelPlugin } from './plugins/modelPlugin.js';
 import { iframePlugin } from './plugins/iframePlugin.js';
 import { h5pPlugin } from './plugins/h5pPlugin.js';
+import { superSplatPlugin } from './plugins/superSplatPlugin.js';
 
 export const contentPlugins = {
   /**
@@ -28,6 +29,11 @@ export const contentPlugins = {
    * H5P content handler (dedicated plugin with official resizer)
    */
   h5p: h5pPlugin.load,
+
+  /**
+   * Gaussian splat (.ply) content handler using PlayCanvas SuperSplat viewer
+   */
+  supersplat: superSplatPlugin.load,
 
   /**
    * Generic iframe content handler
@@ -62,14 +68,19 @@ export const contentPlugins = {
       if (ext === 'pdf') {
         return 'pdf';
       }
-      
+
+      // Gaussian splat detection (.ply files)
+      if (ext === 'ply') {
+        return 'supersplat';
+      }
+
       // H5P detection
-      if (url.hostname.includes('h5p.org') || 
+      if (url.hostname.includes('h5p.org') ||
           src.includes('/h5p/') ||
           src.includes('h5p')) {
         return 'h5p';
       }
-      
+
       // Default to iframe
       return 'iframe';
       
